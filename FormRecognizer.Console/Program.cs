@@ -1,11 +1,12 @@
 ﻿using Azure;
 using Azure.AI.FormRecognizer.DocumentAnalysis;
+using System.Configuration;
 
-var endpoint = "zz";
-var apiKey = "xx";
+var endpoint = ConfigurationManager.AppSettings.Get("Endpoint");
+var apiKey = ConfigurationManager.AppSettings.Get("ApiKey");
 
-var credential = new AzureKeyCredential(apiKey);
-var client = new DocumentAnalysisClient(new Uri(endpoint), credential);
+var credential = new AzureKeyCredential(apiKey!);
+var client = new DocumentAnalysisClient(new Uri(endpoint!), credential);
 
 // sample invoice document
 

@@ -21,6 +21,7 @@ namespace FormRecognizer.Core
 
         public async Task<AnalyzeResult> AnalyzeAsync(string path)
         {
+            // Doesn't seem to work with just a path. Needs to be a hosted URL to work...
             // sample invoice document
             Uri invoiceUri = new Uri(path);
 

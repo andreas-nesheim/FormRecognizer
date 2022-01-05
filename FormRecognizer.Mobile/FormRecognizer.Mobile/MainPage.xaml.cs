@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+﻿using FormRecognizer.Core;
+using System;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace FormRecognizer.Mobile
 {
@@ -18,8 +14,11 @@ namespace FormRecognizer.Mobile
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            var result = await MediaPicker.PickPhotoAsync();
-            var fullPath = result.FullPath;
+            var photoResult = await MediaPicker.PickPhotoAsync();
+            var fullPath = photoResult.FullPath;
+
+            var client = new FormRecognizerClient();
+            var result = await client.AnalyzeAsync(fullPath);
         }
     }
 }

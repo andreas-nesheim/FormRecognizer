@@ -25,15 +25,15 @@
             Text="Snap a photo of your invoice and watch the magic unfold 🪄🪄" />
         <Button Clicked="Button_Clicked" Text="Take picture" />
         <Label
-            x:Name="VendorName"
+            x:Name="VendorNameLabel"
             Padding="10"
             Text="Vendor Name:" />
         <Label
-            x:Name="DueDate"
+            x:Name="DueDateLabel"
             Padding="10"
             Text="Due Date:" />
         <Label
-            x:Name="Total"
+            x:Name="InvoiceTotalLabel"
             Padding="10"
             Text="Invoice Total:" />
     </StackLayout>

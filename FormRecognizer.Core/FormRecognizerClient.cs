@@ -8,8 +8,8 @@ namespace FormRecognizer.Core
 {
     public class FormRecognizerClient
     {
-        private readonly string endpoint = "Endpoint";
-        private readonly string apiKey = "ApiKey";
+        private readonly string endpoint = "https://westeurope.api.cognitive.microsoft.com/";
+        private readonly string apiKey = "ceba6a2b2af14e1497ddb4abdaa618cf";
         private readonly AzureKeyCredential credential;
         private readonly DocumentAnalysisClient client;
 

@@ -19,10 +19,10 @@ namespace FormRecognizer.Mobile
             var name = photoResult.FileName;
 
             var uploaderClient = new BlobUploader();
-            var uploadResult = await uploaderClient.UploadSync(name, fullPath);
+            var blobUrl = await uploaderClient.UploadSync(name, fullPath);
 
-            //var client = new FormRecognizerClient();
-            //var result = await client.AnalyzeAsync(fullPath);
+            var client = new FormRecognizerClient();
+            var result = await client.AnalyzeAsync(blobUrl);
         }
     }
 }

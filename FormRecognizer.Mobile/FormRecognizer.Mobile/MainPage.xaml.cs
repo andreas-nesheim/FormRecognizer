@@ -110,6 +110,18 @@ namespace FormRecognizer.Mobile
                         InvoiceTotalLabel.Text = $"Invoice Total: {invoiceTotal}";
                     }
                 }
+
+                if (document.Fields.TryGetValue("DueDate", out DocumentField dueDateField))
+                {
+                    if (dueDateField.ValueType == DocumentFieldType.Date)
+                    {
+                        // This doesn't work, even though it is a date...
+                        //var dueDate = dueDateField.AsDate();
+                        var dueDate = dueDateField.Content;
+                        Console.WriteLine($"Due Date: '{dueDate}', with confidence {invoiceTotalField.Confidence}");
+                        DueDateLabel.Text = $"Due Date: {dueDate}";
+                    }
+                }
             }
 
             await uploaderClient.DeleteBlobAsync();

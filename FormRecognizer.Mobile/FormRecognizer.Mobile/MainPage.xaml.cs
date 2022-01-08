@@ -112,7 +112,7 @@ namespace FormRecognizer.Mobile
                 }
             }
 
-            // TODO: Delete the uploaded blob
+            await uploaderClient.DeleteBlobAsync();
         }
     }
 }

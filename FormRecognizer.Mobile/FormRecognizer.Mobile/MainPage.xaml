@@ -12,26 +12,30 @@
             <Label
                 FontSize="36"
                 HorizontalTextAlignment="Center"
-                Text="Welcome to Xamarin.Forms!"
+                Text="Form Recognizer 5000"
                 TextColor="White" />
         </Frame>
         <Label
             Padding="30,10,30,10"
             FontSize="Title"
-            Text="Start developing now" />
+            Text="Show me your invoice!" />
         <Label
             Padding="30,0,30,0"
             FontSize="16"
-            Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!" />
-        <Button Clicked="Button_Clicked" Text="Ta/hent bilde" />
+            Text="Snap a photo of your invoice and watch the magic unfold 🪄🪄" />
+        <Button Clicked="Button_Clicked" Text="Take picture" />
         <Label
             x:Name="VendorName"
             Padding="10"
-            Text="Make" />
+            Text="Vendor Name:" />
+        <Label
+            x:Name="DueDate"
+            Padding="10"
+            Text="Due Date:" />
         <Label
             x:Name="Total"
             Padding="10"
-            Text="Make" />
+            Text="Invoice Total:" />
     </StackLayout>
 
 </ContentPage>

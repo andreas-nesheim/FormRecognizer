@@ -34,7 +34,7 @@ namespace FormRecognizer.Mobile
                     {
                         string vendorName = vendorNameField.AsString();
                         Console.WriteLine($"Vendor Name: '{vendorName}', with confidence {vendorNameField.Confidence}");
-                        VendorName.Text = vendorName;
+                        VendorName.Text = $"Vendor Name: {vendorName}";
                     }
                 }
 
@@ -107,7 +107,8 @@ namespace FormRecognizer.Mobile
                     {
                         double invoiceTotal = invoiceTotalField.AsDouble();
                         Console.WriteLine($"Invoice Total: '{invoiceTotal}', with confidence {invoiceTotalField.Confidence}");
-                        Total.Text = invoiceTotal.ToString();
+                        Total.Text = $"Invoice Total: {invoiceTotal}";
+                        //Total.Text = invoiceTotal.ToString();
                     }
                 }
             }

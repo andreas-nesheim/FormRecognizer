@@ -18,10 +18,10 @@ namespace FormRecognizer.Mobile
         {
             var photoResult = await MediaPicker.PickPhotoAsync();
             var fullPath = photoResult.FullPath;
-            var name = photoResult.FileName;
+            var fileName = photoResult.FileName;
 
             var uploaderClient = new BlobUploader();
-            var blobUrl = await uploaderClient.UploadSync(name, fullPath);
+            var blobUrl = await uploaderClient.UploadSync(fileName, fullPath);
 
             var client = new FormRecognizerClient();
             var result = await client.AnalyzeAsync(blobUrl);

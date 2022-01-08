@@ -24,6 +24,14 @@
             FontSize="16"
             Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!" />
         <Button Clicked="Button_Clicked" Text="Ta/hent bilde" />
+        <Label
+            x:Name="VendorName"
+            Padding="10"
+            Text="Make" />
+        <Label
+            x:Name="Total"
+            Padding="10"
+            Text="Make" />
     </StackLayout>
 
 </ContentPage>

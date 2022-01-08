@@ -20,6 +20,8 @@ namespace FormRecognizer.Mobile
             var fullPath = photoResult.FullPath;
             var fileName = photoResult.FileName;
 
+            ActivityIndicator.IsRunning = true;
+
             var uploaderClient = new BlobUploader();
             var blobUrl = await uploaderClient.UploadSync(fileName, fullPath);
 
@@ -123,6 +125,8 @@ namespace FormRecognizer.Mobile
                     }
                 }
             }
+
+            ActivityIndicator.IsRunning = false;
 
             await uploaderClient.DeleteBlobAsync();
         }

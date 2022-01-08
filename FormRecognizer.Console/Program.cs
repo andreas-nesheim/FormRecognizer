@@ -1,107 +1,61 @@
-﻿using Azure;
-using Azure.AI.FormRecognizer.DocumentAnalysis;
-using System.Configuration;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
-var endpoint = ConfigurationManager.AppSettings.Get("Endpoint");
-var apiKey = ConfigurationManager.AppSettings.Get("ApiKey");
+var connectionString = "DefaultEndpointsProtocol=https;AccountName=anesheimstformrecognizer;AccountKey=uit9sUxfodPwG7SQwryjsVj0PNJ56D7SnGB+1FGb7J3Az9TzycYZQoV1TopvY33ZqNUYgRvf0zKrk8gs3/39AQ==;EndpointSuffix=core.windows.net";
 
-var credential = new AzureKeyCredential(apiKey!);
-var client = new DocumentAnalysisClient(new Uri(endpoint!), credential);
+// Create a BlobServiceClient object which will be used to create a container client
+BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
 
-// sample invoice document
+//Create a unique name for the container
+string containerName = "quickstartblobs" + Guid.NewGuid().ToString();
 
-Uri invoiceUri = new Uri("https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/sample-invoice.pdf");
+// Create the container and return a container client object
+BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
 
-AnalyzeDocumentOperation operation = await client.StartAnalyzeDocumentFromUriAsync("prebuilt-invoice", invoiceUri);
+// Create a local file in the ./data/ directory for uploading and downloading
+string localPath = "C:/data/";
+string fileName = "quickstart" + Guid.NewGuid().ToString() + ".txt";
+string localFilePath = Path.Combine(localPath, fileName);
 
-await operation.WaitForCompletionAsync();
+// Write text to the file
+await File.WriteAllTextAsync(localFilePath, "Hello, World!");
 
-AnalyzeResult result = operation.Value;
+// Get a reference to a blob
+BlobClient blobClient = containerClient.GetBlobClient(fileName);
 
-for (int i = 0; i < result.Documents.Count; i++)
+Console.WriteLine("Uploading to Blob storage as blob:\n\t {0}\n", blobClient.Uri);
+
+// Upload data from the local file
+await blobClient.UploadAsync(localFilePath, true);
+
+Console.WriteLine("Listing blobs...");
+
+// List all blobs in the container
+await foreach (BlobItem blobItem in containerClient.GetBlobsAsync())
 {
-    Console.WriteLine($"Document {i}:");
-
-    AnalyzedDocument document = result.Documents[i];
-
-    if (document.Fields.TryGetValue("VendorName", out DocumentField? vendorNameField))
-    {
-        if (vendorNameField.ValueType == DocumentFieldType.String)
-        {
-            string vendorName = vendorNameField.AsString();
-            Console.WriteLine($"Vendor Name: '{vendorName}', with confidence {vendorNameField.Confidence}");
-        }
-    }
-
-    if (document.Fields.TryGetValue("CustomerName", out DocumentField? customerNameField))
-    {
-        if (customerNameField.ValueType == DocumentFieldType.String)
-        {
-            string customerName = customerNameField.AsString();
-            Console.WriteLine($"Customer Name: '{customerName}', with confidence {customerNameField.Confidence}");
-        }
-    }
-
-    if (document.Fields.TryGetValue("Items", out DocumentField? itemsField))
-    {
-        if (itemsField.ValueType == DocumentFieldType.List)
-        {
-            foreach (DocumentField itemField in itemsField.AsList())
-            {
-                Console.WriteLine("Item:");
-
-                if (itemField.ValueType == DocumentFieldType.Dictionary)
-                {
-                    IReadOnlyDictionary<string, DocumentField> itemFields = itemField.AsDictionary();
-
-                    if (itemFields.TryGetValue("Description", out DocumentField? itemDescriptionField))
-                    {
-                        if (itemDescriptionField.ValueType == DocumentFieldType.String)
-                        {
-                            string itemDescription = itemDescriptionField.AsString();
-
-                            Console.WriteLine($"  Description: '{itemDescription}', with confidence {itemDescriptionField.Confidence}");
-                        }
-                    }
-
-                    if (itemFields.TryGetValue("Amount", out DocumentField? itemAmountField))
-                    {
-                        if (itemAmountField.ValueType == DocumentFieldType.Double)
-                        {
-                            double itemAmount = itemAmountField.AsDouble();
-
-                            Console.WriteLine($"  Amount: '{itemAmount}', with confidence {itemAmountField.Confidence}");
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    if (document.Fields.TryGetValue("SubTotal", out DocumentField? subTotalField))
-    {
-        if (subTotalField.ValueType == DocumentFieldType.Double)
-        {
-            double subTotal = subTotalField.AsDouble();
-            Console.WriteLine($"Sub Total: '{subTotal}', with confidence {subTotalField.Confidence}");
-        }
-    }
-
-    if (document.Fields.TryGetValue("TotalTax", out DocumentField? totalTaxField))
-    {
-        if (totalTaxField.ValueType == DocumentFieldType.Double)
-        {
-            double totalTax = totalTaxField.AsDouble();
-            Console.WriteLine($"Total Tax: '{totalTax}', with confidence {totalTaxField.Confidence}");
-        }
-    }
-
-    if (document.Fields.TryGetValue("InvoiceTotal", out DocumentField? invoiceTotalField))
-    {
-        if (invoiceTotalField.ValueType == DocumentFieldType.Double)
-        {
-            double invoiceTotal = invoiceTotalField.AsDouble();
-            Console.WriteLine($"Invoice Total: '{invoiceTotal}', with confidence {invoiceTotalField.Confidence}");
-        }
-    }
+    Console.WriteLine("\t" + blobItem.Name);
+    Console.WriteLine("\t" + blobClient.Uri.AbsoluteUri);
 }
+
+// Download the blob to a local file
+// Append the string "DOWNLOADED" before the .txt extension 
+// so you can compare the files in the data directory
+string downloadFilePath = localFilePath.Replace(".txt", "DOWNLOADED.txt");
+
+Console.WriteLine("\nDownloading blob to\n\t{0}\n", downloadFilePath);
+
+// Download the blob's contents and save it to a file
+await blobClient.DownloadToAsync(downloadFilePath);
+
+// Clean up
+Console.Write("Press any key to begin clean up");
+Console.ReadLine();
+
+Console.WriteLine("Deleting blob container...");
+await containerClient.DeleteAsync();
+
+Console.WriteLine("Deleting the local source and downloaded files...");
+File.Delete(localFilePath);
+File.Delete(downloadFilePath);
+
+Console.WriteLine("Done");

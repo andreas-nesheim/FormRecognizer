@@ -117,8 +117,9 @@ namespace FormRecognizer.Mobile
                 {
                     if (dueDateField.ValueType == DocumentFieldType.Date)
                     {
-                        // This doesn't work, even though it is a date...
+                        // This doesn't work, even though it is a date. Use the raw content instead.
                         //var dueDate = dueDateField.AsDate();
+
                         var dueDate = dueDateField.Content;
                         Console.WriteLine($"Due Date: '{dueDate}', with confidence {invoiceTotalField.Confidence}");
                         DueDateLabel.Text = $"Due Date: {dueDate}";

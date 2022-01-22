@@ -7,7 +7,7 @@ namespace FormRecognizer.Core
 {
     public class BlobUploader
     {
-        private readonly string connectionString = "DefaultEndpointsProtocol=https;AccountName=anesheimstformrecognizer;AccountKey=uit9sUxfodPwG7SQwryjsVj0PNJ56D7SnGB+1FGb7J3Az9TzycYZQoV1TopvY33ZqNUYgRvf0zKrk8gs3/39AQ==;EndpointSuffix=core.windows.net";
+        private readonly string connectionString = "storageAccountConnectionString";
         private BlobContainerClient containerClient;
 
         public async Task<string> UploadSync(string fileName, string filePath)

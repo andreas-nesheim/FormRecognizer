@@ -4,38 +4,43 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <StackLayout>
-        <Frame
-            Padding="24"
-            BackgroundColor="#2196F3"
-            CornerRadius="0">
+    <Grid>
+        <StackLayout>
+            <Frame
+                Padding="24"
+                BackgroundColor="#2196F3"
+                CornerRadius="0">
+                <Label
+                    FontSize="36"
+                    HorizontalTextAlignment="Center"
+                    Text="Form Recognizer 5000"
+                    TextColor="White" />
+            </Frame>
             <Label
-                FontSize="36"
-                HorizontalTextAlignment="Center"
-                Text="Form Recognizer 5000"
-                TextColor="White" />
-        </Frame>
-        <Label
-            Padding="30,10,30,10"
-            FontSize="Title"
-            Text="Show me your invoice!" />
-        <Label
-            Padding="30,0,30,0"
-            FontSize="16"
-            Text="Snap a photo of your invoice and watch the magic unfold 🪄🪄" />
-        <Button Clicked="Button_Clicked" Text="Take picture" />
-        <Label
-            x:Name="VendorNameLabel"
-            Padding="10"
-            Text="Vendor Name:" />
-        <Label
-            x:Name="DueDateLabel"
-            Padding="10"
-            Text="Due Date:" />
-        <Label
-            x:Name="InvoiceTotalLabel"
-            Padding="10"
-            Text="Invoice Total:" />
-    </StackLayout>
+                Padding="30,10,30,10"
+                FontSize="Title"
+                Text="Show me your invoice!" />
+            <Label
+                Padding="30,0,30,0"
+                FontSize="16"
+                Text="Snap a photo of your invoice and watch the magic unfold 🪄🪄" />
+            <Button Clicked="Button_Clicked" Text="Take picture" />
+            <Label
+                x:Name="VendorNameLabel"
+                Padding="10"
+                Text="Vendor Name:" />
+            <Label
+                x:Name="DueDateLabel"
+                Padding="10"
+                Text="Due Date:" />
+            <Label
+                x:Name="InvoiceTotalLabel"
+                Padding="10"
+                Text="Invoice Total:" />
+        </StackLayout>
+        <ActivityIndicator x:Name="ActivityIndicator" />
+    </Grid>
+
+
 
 </ContentPage>
